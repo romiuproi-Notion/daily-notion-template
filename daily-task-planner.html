@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Task Planner — Notion Template</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --sage: #8fa882;
+    --sage-light: #c8d9c2;
+    --sage-pale: #eef3ec;
+    --sage-deep: #5d7a55;
+    --cream: #fdf8f2;
+    --cream-2: #f5ede0;
+    --warm-tan: #e8d5bc;
+    --warm-tan-dark: #c4a882;
+    --blush: #e8c4b4;
+    --blush-light: #f5e4db;
+    --dusk: #c4b4c8;
+    --dusk-light: #ede8f0;
+    --ink: #2c2620;
+    --ink-muted: #6b5e52;
+    --ink-faint: #b5a898;
+    --gold: #c9a84c;
+    --gold-light: #f0e4b8;
+    --white: #ffffff;
+    --shadow: rgba(44, 38, 32, 0.06);
+    --radius: 12px;
+    --radius-sm: 7px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* ── Cover Banner ── */
+  .cover {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(135deg, #d4e8cf 0%, #c8d9c2 30%, #e8d5bc 70%, #f5e4db 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 30% 60%, rgba(143,168,130,0.4) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 30%, rgba(232,197,180,0.5) 0%, transparent 50%);
+  }
+  .cover-pattern {
+    position: absolute; inset: 0;
+    opacity: 0.12;
+    background-image: radial-gradient(circle, var(--sage-deep) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  .cover-label {
+    position: absolute;
+    bottom: 20px; left: 60px;
+    font-family: 'Lora', serif;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--sage-deep);
+    letter-spacing: 0.08em;
+    opacity: 0.8;
+  }
+
+  /* ── Page Wrapper ── */
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 40px 80px;
+  }
+
+  /* ── Header Block ── */
+  .header {
+    margin-top: -24px;
+    padding-bottom: 32px;
+    border-bottom: 1.5px solid var(--warm-tan);
+  }
+  .emoji-icon {
+    font-size: 52px;
+    display: block;
+    margin-bottom: 12px;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.08));
+  }
+  .page-title {
+    font-family: 'Lora', serif;
+    font-size: 38px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    margin-bottom: 6px;
+    outline: none;
+  }
+  .page-title:focus { border-bottom: 2px solid var(--sage); }
+  .page-subtitle {
+    font-size: 15px;
+    color: var(--ink-muted);
+    font-style: italic;
+    font-family: 'Lora', serif;
+    outline: none;
+  }
+
+  /* ── Properties Bar ── */
+  .properties {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    padding: 18px 0 24px;
+    border-bottom: 1px solid var(--warm-tan);
+    margin-bottom: 28px;
+  }
+  .prop {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13.5px;
+  }
+  .prop-label {
+    color: var(--ink-faint);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+    min-width: 60px;
+  }
+  .prop-value {
+    color: var(--ink-muted);
+    background: var(--cream-2);
+    border: 1px solid var(--warm-tan);
+    border-radius: 5px;
+    padding: 3px 9px;
+    font-size: 13px;
+    cursor: text;
+    outline: none;
+    min-width: 90px;
+    transition: border-color 0.2s;
+  }
+  .prop-value:focus { border-color: var(--sage); color: var(--ink); }
+  .prop-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12.5px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: opacity 0.15s;
+  }
+  .prop-badge:hover { opacity: 0.8; }
+  .badge-green { background: var(--sage-pale); color: var(--sage-deep); border: 1px solid var(--sage-light); }
+  .badge-blush { background: var(--blush-light); color: #8a5244; border: 1px solid var(--blush); }
+  .badge-dusk  { background: var(--dusk-light);  color: #5c4870; border: 1px solid var(--dusk); }
+  .badge-gold  { background: var(--gold-light);  color: #7a5e1a; border: 1px solid #dfc97a; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .dot-green { background: var(--sage); }
+  .dot-blush { background: var(--blush); }
+  .dot-dusk  { background: var(--dusk); }
+  .dot-gold  { background: var(--gold); }
+
+  /* ── Section Headings ── */
+  .section {
+    margin-bottom: 28px;
+  }
+  .section-title {
+    font-family: 'Lora', serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    outline: none;
+  }
+  .section-icon {
+    font-size: 17px;
+  }
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--warm-tan);
+  }
+
+  /* ── Morning Intention ── */
+  .intention-box {
+    background: var(--sage-pale);
+    border: 1px solid var(--sage-light);
+    border-left: 4px solid var(--sage);
+    border-radius: var(--radius-sm);
+    padding: 16px 20px;
+    margin-bottom: 28px;
+  }
+  .intention-prompt {
+    font-size: 12px;
+    color: var(--sage-deep);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .intention-text {
+    font-family: 'Lora', serif;
+    font-size: 15.5px;
+    color: var(--ink);
+    font-style: italic;
+    outline: none;
+    width: 100%;
+    min-height: 24px;
+    line-height: 1.65;
+  }
+  .intention-text:focus { opacity: 0.85; }
+  [contenteditable]:empty:before {
+    content: attr(placeholder);
+    color: var(--ink-faint);
+    pointer-events: none;
+  }
+
+  /* ── Habit Tracker ── */
+  .habits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .habit-card {
+    background: var(--white);
+    border: 1px solid var(--warm-tan);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.18s;
+    user-select: none;
+  }
+  .habit-card:hover { border-color: var(--sage-light); background: var(--sage-pale); }
+  .habit-card.done { background: var(--sage-pale); border-color: var(--sage); }
+  .habit-check {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 1.5px solid var(--ink-faint);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.18s;
+    font-size: 11px;
+    color: transparent;
+  }
+  .habit-card.done .habit-check {
+    background: var(--sage); border-color: var(--sage); color: white;
+  }
+  .habit-label {
+    font-size: 13px;
+    color: var(--ink-muted);
+    outline: none;
+  }
+  .habit-card.done .habit-label { color: var(--sage-deep); }
+
+  /* ── Task List ── */
+  .task-block {
+    background: var(--white);
+    border: 1px solid var(--warm-tan);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 6px var(--shadow);
+  }
+  .task-block-header {
+    padding: 11px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--cream-2);
+  }
+  .task-block-title {
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--ink-faint);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .task-block-count {
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    background: var(--cream-2);
+    border-radius: 10px;
+    padding: 1px 7px;
+  }
+
+  .task-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--cream-2);
+    transition: background 0.15s;
+  }
+  .task-item:last-child { border-bottom: none; }
+  .task-item:hover { background: var(--cream); }
+
+  .task-checkbox {
+    width: 18px; height: 18px;
+    border: 1.5px solid var(--warm-tan-dark);
+    border-radius: 4px;
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+    font-size: 11px;
+    color: transparent;
+    background: transparent;
+  }
+  .task-item.checked .task-checkbox {
+    background: var(--sage); border-color: var(--sage); color: white;
+  }
+  .task-text-wrap { flex: 1; }
+  .task-text {
+    font-size: 14.5px;
+    color: var(--ink);
+    outline: none;
+    line-height: 1.55;
+    display: block;
+  }
+  .task-item.checked .task-text {
+    text-decoration: line-through;
+    color: var(--ink-faint);
+  }
+  .task-meta {
+    display: flex;
+    gap: 6px;
+    margin-top: 4px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .task-tag {
+    font-size: 11.5px;
+    padding: 1px 8px;
+    border-radius: 10px;
+    cursor: default;
+  }
+  .tag-work { background: var(--dusk-light); color: #5c4870; }
+  .tag-health { background: var(--sage-pale); color: var(--sage-deep); }
+  .tag-personal { background: var(--blush-light); color: #8a5244; }
+  .tag-urgent { background: #fdf0e6; color: #8a5020; border: 1px solid #f0c89a; }
+  .task-time {
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    display: flex; align-items: center; gap: 3px;
+  }
+
+  .add-task {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 10px 16px;
+    color: var(--ink-faint);
+    font-size: 13.5px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    border-top: 1px dashed var(--warm-tan);
+    transition: color 0.15s;
+  }
+  .add-task:hover { color: var(--sage-deep); }
+
+  /* ── Time Blocks ── */
+  .timeblock-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    background: var(--white);
+    border: 1px solid var(--warm-tan);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 28px;
+    box-shadow: 0 1px 6px var(--shadow);
+  }
+  .timeblock-row {
+    display: flex;
+    border-bottom: 1px solid var(--cream-2);
+    min-height: 44px;
+  }
+  .timeblock-row:last-child { border-bottom: none; }
+  .timeblock-time {
+    width: 72px;
+    flex-shrink: 0;
+    padding: 10px 12px;
+    font-size: 12px;
+    color: var(--ink-faint);
+    background: var(--cream);
+    border-right: 1px solid var(--warm-tan);
+    display: flex;
+    align-items: flex-start;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .timeblock-content {
+    flex: 1;
+    padding: 10px 14px;
+    font-size: 14px;
+    color: var(--ink);
+    outline: none;
+    min-height: 44px;
+  }
+  .timeblock-content:empty:before {
+    content: attr(placeholder);
+    color: var(--ink-faint);
+  }
+  .timeblock-row.highlight .timeblock-content { background: var(--sage-pale); }
+  .timeblock-row.soft-highlight .timeblock-content { background: var(--blush-light); }
+
+  /* ── Notes & Reflection ── */
+  .notes-area {
+    background: var(--white);
+    border: 1px solid var(--warm-tan);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    margin-bottom: 18px;
+    box-shadow: 0 1px 6px var(--shadow);
+  }
+  .notes-area h4 {
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--ink-faint);
+    margin-bottom: 10px;
+  }
+  .notes-text {
+    font-size: 14.5px;
+    color: var(--ink);
+    outline: none;
+    min-height: 60px;
+    line-height: 1.7;
+    width: 100%;
+    font-family: 'Lora', serif;
+    font-style: italic;
+  }
+
+  /* ── Mood / Energy ── */
+  .mood-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .mood-card {
+    flex: 1;
+    min-width: 140px;
+    background: var(--white);
+    border: 1px solid var(--warm-tan);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    box-shadow: 0 1px 4px var(--shadow);
+  }
+  .mood-card h4 {
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+  .mood-dots {
+    display: flex;
+    gap: 6px;
+  }
+  .mood-dot {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.15s;
+    font-size: 15px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--cream-2);
+  }
+  .mood-dot:hover { transform: scale(1.12); }
+  .mood-dot.selected { border-color: var(--sage); box-shadow: 0 0 0 3px var(--sage-pale); }
+
+  .energy-bar {
+    display: flex;
+    gap: 4px;
+    margin-top: 4px;
+  }
+  .energy-seg {
+    flex: 1; height: 8px;
+    border-radius: 3px;
+    background: var(--cream-2);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .energy-seg.active { background: var(--sage); }
+  .energy-seg:hover { background: var(--sage-light); }
+  .energy-label {
+    font-size: 12px;
+    color: var(--ink-faint);
+    margin-top: 6px;
+  }
+
+  /* ── Priorities ── */
+  .priority-list {
+    background: var(--white);
+    border: 1px solid var(--warm-tan);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 28px;
+    box-shadow: 0 1px 6px var(--shadow);
+  }
+  .priority-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 16px;
+    border-bottom: 1px solid var(--cream-2);
+    transition: background 0.12s;
+  }
+  .priority-item:last-child { border-bottom: none; }
+  .priority-item:hover { background: var(--cream); }
+  .priority-num {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .pnum-1 { background: var(--blush-light); color: #8a5244; }
+  .pnum-2 { background: var(--dusk-light);  color: #5c4870; }
+  .pnum-3 { background: var(--sage-pale);   color: var(--sage-deep); }
+  .priority-text {
+    flex: 1;
+    font-size: 14.5px;
+    color: var(--ink);
+    outline: none;
+  }
+  .priority-tag {
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    cursor: default;
+  }
+
+  /* ── Gratitude ── */
+  .gratitude-box {
+    background: linear-gradient(135deg, var(--gold-light) 0%, #fdf8f0 100%);
+    border: 1px solid #dfc97a;
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    margin-bottom: 28px;
+  }
+  .gratitude-prompt {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #8a6a1a;
+    font-weight: 500;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .gratitude-items {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+  .gratitude-row {
+    display: flex;
+    align-items: baseline;
+    gap: 9px;
+  }
+  .gratitude-bullet {
+    color: var(--gold);
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .gratitude-text {
+    font-family: 'Lora', serif;
+    font-size: 14.5px;
+    color: #5a4010;
+    outline: none;
+    flex: 1;
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  /* ── End-of-day ── */
+  .eod-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .eod-card {
+    background: var(--white);
+    border: 1px solid var(--warm-tan);
+    border-radius: var(--radius-sm);
+    padding: 15px 17px;
+    box-shadow: 0 1px 4px var(--shadow);
+  }
+  .eod-card h4 {
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-faint);
+    margin-bottom: 9px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .eod-text {
+    font-size: 14px;
+    color: var(--ink);
+    outline: none;
+    min-height: 52px;
+    line-height: 1.65;
+    font-family: 'Lora', serif;
+    font-style: italic;
+  }
+
+  /* ── Progress Bar ── */
+  .progress-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 0 8px;
+  }
+  .progress-label {
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    min-width: 80px;
+  }
+  .progress-track {
+    flex: 1;
+    height: 6px;
+    background: var(--warm-tan);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--sage) 0%, var(--sage-light) 100%);
+    border-radius: 3px;
+    transition: width 0.4s ease;
+  }
+  .progress-pct {
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--sage-deep);
+    min-width: 34px;
+    text-align: right;
+  }
+
+  /* ── Divider ── */
+  .divider {
+    height: 1px;
+    background: var(--warm-tan);
+    margin: 28px 0;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    padding-top: 24px;
+    border-top: 1px solid var(--warm-tan);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: gap;
+  }
+  .footer-quote {
+    font-family: 'Lora', serif;
+    font-size: 13.5px;
+    font-style: italic;
+    color: var(--ink-faint);
+    max-width: 400px;
+    line-height: 1.6;
+    outline: none;
+  }
+  .footer-tag {
+    font-size: 12px;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* ── Print styles ── */
+  @media print {
+    body { background: white; }
+    .cover { height: 120px; }
+    .page { padding: 0 24px 48px; }
+  }
+
+  /* ── Editable hover glow ── */
+  [contenteditable]:hover:not(:focus) {
+    background: rgba(143,168,130,0.06);
+    border-radius: 3px;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    .page { padding: 0 20px 60px; }
+    .eod-grid { grid-template-columns: 1fr; }
+    .habits-grid { grid-template-columns: 1fr 1fr; }
+    .page-title { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Cover Image -->
+<div class="cover">
+  <div class="cover-pattern"></div>
+  <span class="cover-label">notion template · daily task planner</span>
+</div>
+
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <span class="emoji-icon">🌿</span>
+    <h1 class="page-title" contenteditable="true" placeholder="Daily Task Planner">Daily Task Planner</h1>
+    <p class="page-subtitle" contenteditable="true" placeholder="Your calm, intentional day">Your calm, intentional day</p>
+  </div>
+
+  <!-- Properties -->
+  <div class="properties">
+    <div class="prop">
+      <span class="prop-label">Date</span>
+      <span class="prop-value" contenteditable="true">May 27, 2026</span>
+    </div>
+    <div class="prop">
+      <span class="prop-label">Week</span>
+      <span class="prop-value" contenteditable="true">Week 22</span>
+    </div>
+    <div class="prop">
+      <span class="prop-label">Focus</span>
+      <button class="prop-badge badge-green" onclick="cycleBadge(this,['Deep Work','Meetings','Creative','Admin','Rest'])">
+        <span class="dot dot-green"></span> Deep Work
+      </button>
+    </div>
+    <div class="prop">
+      <span class="prop-label">Status</span>
+      <button class="prop-badge badge-blush" onclick="cycleBadge(this,['In Progress','Not Started','Done','Paused'])">
+        <span class="dot dot-blush"></span> In Progress
+      </button>
+    </div>
+    <div class="prop">
+      <span class="prop-label">Review</span>
+      <button class="prop-badge badge-dusk" onclick="cycleBadge(this,['Pending','Done','Skipped'])">
+        <span class="dot dot-dusk"></span> Pending
+      </button>
+    </div>
+  </div>
+
+  <!-- Morning Intention -->
+  <div class="section">
+    <h2 class="section-title" contenteditable="true">
+      <span class="section-icon">☀️</span> Morning Intention
+      <span class="section-line"></span>
+    </h2>
+    <div class="intention-box">
+      <div class="intention-prompt">Today I intend to…</div>
+      <div class="intention-text" contenteditable="true" placeholder="Write your intention for the day. What feeling do you want to carry through?">
+        Show up with patience and focus. Let each task have its own space.
+      </div>
+    </div>
+  </div>
+
+  <!-- Mood & Energy -->
+  <div class="section">
+    <h2 class="section-title" contenteditable="true">
+      <span class="section-icon">🌡️</span> Morning Check-in
+      <span class="section-line"></span>
+    </h2>
+    <div class="mood-row">
+      <div class="mood-card">
+        <h4>Mood</h4>
+        <div class="mood-dots">
+          <div class="mood-dot" onclick="selectMood(this)" title="Rough">😔</div>
+          <div class="mood-dot" onclick="selectMood(this)" title="Okay">😐</div>
+          <div class="mood-dot selected" onclick="selectMood(this)" title="Good">🙂</div>
+          <div class="mood-dot" onclick="selectMood(this)" title="Great">😊</div>
+          <div class="mood-dot" onclick="selectMood(this)" title="Wonderful">🌟</div>
+        </div>
+      </div>
+      <div class="mood-card">
+        <h4>Energy Level</h4>
+        <div class="energy-bar" id="energyBar">
+          <div class="energy-seg active" onclick="setEnergy(1)"></div>
+          <div class="energy-seg active" onclick="setEnergy(2)"></div>
+          <div class="energy-seg active" onclick="setEnergy(3)"></div>
+          <div class="energy-seg" onclick="setEnergy(4)"></div>
+          <div class="energy-seg" onclick="setEnergy(5)"></div>
+        </div>
+        <div class="energy-label" id="energyLabel">Moderate — 3 / 5</div>
+      </div>
+      <div class="mood-card">
+        <h4>Sleep Quality</h4>
+        <div class="mood-dots">
+          <div class="mood-dot" onclick="selectMood(this)">💤</div>
+          <div class="mood-dot" onclick="selectMood(this)">😴</div>
+          <div class="mood-dot selected" onclick="selectMood(this)">😌</div>
+          <div class="mood-dot" onclick="selectMood(this)">✨</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Habit Tracker -->
+  <div class="section">
+    <h2 class="section-title" contenteditable="true">
+      <span class="section-icon">🔁</span> Habit Tracker
+      <span class="section-line"></span>
+    </h2>
+    <div class="habits-grid" id="habitsGrid">
+      <div class="habit-card done" onclick="toggleHabit(this)">
+        <div class="habit-check">✓</div>
+        <span class="habit-label" contenteditable="true">Morning water</span>
+      </div>
+      <div class="habit-card done" onclick="toggleHabit(this)">
+        <div class="habit-check">✓</div>
+        <span class="habit-label" contenteditable="true">Journaling</span>
+      </div>
+      <div class="habit-card" onclick="toggleHabit(this)">
+        <div class="habit-check"></div>
+        <span class="habit-label" contenteditable="true">30 min walk</span>
+      </div>
+      <div class="habit-card" onclick="toggleHabit(this)">
+        <div class="habit-check"></div>
+        <span class="habit-label" contenteditable="true">Meditation</span>
+      </div>
+      <div class="habit-card done" onclick="toggleHabit(this)">
+        <div class="habit-check">✓</div>
+        <span class="habit-label" contenteditable="true">No phone AM</span>
+      </div>
+      <div class="habit-card" onclick="toggleHabit(this)">
+        <div class="habit-check"></div>
+        <span class="habit-label" contenteditable="true">Read 20 min</span>
+      </div>
+      <div class="habit-card" onclick="toggleHabit(this)">
+        <div class="habit-check"></div>
+        <span class="habit-label" contenteditable="true">Vitamins</span>
+      </div>
+      <div class="habit-card" onclick="toggleHabit(this)">
+        <div class="habit-check"></div>
+        <span class="habit-label" contenteditable="true">+ Add habit</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top 3 Priorities -->
+  <div class="section">
+    <h2 class="section-title" contenteditable="true">
+      <span class="section-icon">🎯</span> Top 3 Priorities
+      <span class="section-line"></span>
+    </h2>
+    <div class="priority-list">
+      <div class="priority-item">
+        <div class="priority-num pnum-1">1</div>
+        <span class="priority-text" contenteditable="true" placeholder="Most important task…">Finish the Q2 strategy presentation deck</span>
+        <span class="priority-tag">by 3 PM</span>
+      </div>
+      <div class="priority-item">
+        <div class="priority-num pnum-2">2</div>
+        <span class="priority-text" contenteditable="true" placeholder="Second priority…">Review and respond to client feedback emails</span>
+        <span class="priority-tag">by noon</span>
+      </div>
+      <div class="priority-item">
+        <div class="priority-num pnum-3">3</div>
+        <span class="priority-text" contenteditable="true" placeholder="Third priority…">Team standup and sync on sprint tasks</span>
+        <span class="priority-tag">10:00 AM</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Task Blocks -->
+  <div class="section">
+    <h2 class="section-title" contenteditable="true">
+      <span class="section-icon">✅</span> Today's Tasks
+      <span class="section-line"></span>
+    </h2>
+
+    <!-- Progress -->
+    <div class="progress-row">
+      <span class="progress-label">Day progress</span>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill" style="width: 35%"></div>
+      </div>
+      <span class="progress-pct" id="progressPct">35%</span>
+    </div>
+
+    <!-- Work Tasks -->
+    <div class="task-block" style="margin-top: 16px;">
+      <div class="task-block-header">
+        <span class="task-block-title">💼 Work</span>
+        <span class="task-block-count" id="workCount">0 / 4</span>
+      </div>
+      <div id="workTasks">
+        <div class="task-item" onclick="toggleTask(this)">
+          <div class="task-checkbox"></div>
+          <div class="task-text-wrap">
+            <span class="task-text" contenteditable="true">Prepare Q2 presentation slides (sections 1–4)</span>
+            <div class="task-meta">
+              <span class="task-tag tag-urgent">Urgent</span>
+              <span class="task-time">⏱ 2h · Due 3 PM</span>
+            </div>
+          </div>
+        </div>
+        <div class="task-item checked" onclick="toggleTask(this)">
+          <div class="task-checkbox">✓</div>
+          <div class="task-text-wrap">
+            <span class="task-text" contenteditable="true">Reply to Meera's project proposal email</span>
+            <div class="task-meta">
+              <span class="task-tag tag-work">Work</span>
+              <span class="task-time">⏱ 20 min</span>
+            </div>
+          </div>
+        </div>
+        <div class="task-item" onclick="toggleTask(this)">
+          <div class="task-checkbox"></div>
+          <div class="task-text-wrap">
+            <span class="task-text" contenteditable="true">10:00 AM team standup — share sprint update</span>
+            <div class="task-meta">
+              <span class="task-tag tag-work">Meeting</span>
+              <span class="task-time">⏱ 30 min</span>
+            </div>
+          </div>
+        </div>
+        <div class="task-item" onclick="toggleTask(this)">
+          <div class="task-checkbox"></div>
+          <div class="task-text-wrap">
+            <span class="task-text" contenteditable="true">Review pull request #47 and leave comments</span>
+            <div class="task-meta">
+              <span class="task-tag tag-work">Work</span>
+              <span class="task-time">⏱ 45 min</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="add-task" onclick="addTask('workTasks')">+ Add task</button>
+    </div>
+
+    <!-- Personal Tasks -->
+    <div class="task-block">
+      <div class="task-block-header">
+        <span class="task-block-title">🌸 Personal</span>
+        <span class="task-block-count" id="personalCount">0 / 3</span>
+      </div>
+      <div id="personalTasks">
+        <div class="task-item checked" onclick="toggleTask(this)">
+          <div class="task-checkbox">✓</div>
+          <div class="task-text-wrap">
+            <span class="task-text" contenteditable="true">Morning walk — Lodhi Garden route</span>
+            <div class="task-meta">
+              <span class="task-tag tag-health">Health</span>
+              <span class="task-time">⏱ 40 min · 7 AM</span>
+            </div>
+          </div>
+        </div>
+        <div class="task-item" onclick="toggleTask(this)">
+          <div class="task-checkbox"></div>
+          <div class="task-text-wrap">
+            <span class="task-text" contenteditable="true">Call mom and catch up</span>
+            <div class="task-meta">
+              <span class="task-tag tag-personal">Personal</span>
+              <span class="task-time">⏱ 20 min · Evening</span>
+            </div>
+          </div>
+        </div>
+        <div class="task-item" onclick="toggleTask(this)">
+          <div class="task-checkbox"></div>
+          <div class="task-text-wrap">
+            <span class="task-text" contenteditable="true">Grocery run — get vegetables for the week</span>
+            <div class="task-meta">
+              <span class="task-tag tag-personal">Errand</span>
+              <span class="task-time">⏱ 30 min</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="add-task" onclick="addTask('personalTasks')">+ Add task</button>
+    </div>
+
+    <!-- Health Tasks -->
+    <div class="task-block">
+      <div class="task-block-header">
+        <span class="task-block-title">💚 Health & Wellness</span>
+        <span class="task-block-count" id="healthCount">0 / 2</span>
+      </div>
+      <div id="healthTasks">
+        <div class="task-item" onclick="toggleTask(this)">
+          <div class="task-checkbox"></div>
+          <div class="task-text-wrap">
+            <span class="task-text" contenteditable="true">Yoga or stretching — 20 minutes</span>
+            <div class="task-meta">
+              <span class="task-tag tag-health">Wellness</span>
+              <span class="task-time">⏱ 20 min · 6 PM</span>
+            </div>
+          </div>
+        </div>
+        <div class="task-item" onclick="toggleTask(this)">
+          <div class="task-checkbox"></div>
+          <div class="task-text-wrap">
+            <span class="task-text" contenteditable="true">Drink 2.5 L water through the day</span>
+            <div class="task-meta">
+              <span class="task-tag tag-health">Health</span>
+              <span class="task-time">All day</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="add-task" onclick="addTask('healthTasks')">+ Add task</button>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Time Blocks -->
+  <div class="section">
+    <h2 class="section-title" contenteditable="true">
+      <span class="section-icon">🕐</span> Time Blocks
+      <span class="section-line"></span>
+    </h2>
+    <div class="timeblock-grid">
+      <div class="timeblock-row">
+        <div class="timeblock-time">6 AM</div>
+        <div class="timeblock-content" contenteditable="true" placeholder="Early morning…">Morning routine · Water · Journal</div>
+      </div>
+      <div class="timeblock-row highlight">
+        <div class="timeblock-time">7 AM</div>
+        <div class="timeblock-content" contenteditable="true" placeholder="…">🚶 Morning walk — Lodhi Garden</div>
+      </div>
+      <div class="timeblock-row">
+        <div class="timeblock-time">8 AM</div>
+        <div class="timeblock-content" contenteditable="true" placeholder="…">Breakfast · Email triage</div>
+      </div>
+      <div class="timeblock-row highlight">
+        <div class="timeblock-time">9 AM</div>
+        <div class="timeblock-content" contenteditable="true" placeholder="…">🎯 Deep work block — Q2 slides (no distractions)</div>
+      </div>
+      <div class="timeblock-row highlight">
+        <div class="timeblock-time">10 AM</div>
+        <div class="timeblock-content" contenteditable="true" placeholder="…">🎯 Deep work continues · Team standup at 10:00</div>
+      </div>
+      <div class="timeblock-row">
+        <div class="timeblock-time">11 AM</div>
+        <div class="timeblock-content" contenteditable="true" placeholder="…">Emails · PR review · Admin tasks</div>
+      </div>
+      <div class="timeblock-row">
+        <div class="timeblock-time">12 PM</div>
+        <div class="timeblock-content" contenteditable="true" placeholder="…">🥗 Lunch break — step away from screen</div>
+      </div>
+      <div class="timeblock-row">
+        <div class="timeblock-time">1 PM</div>
+        <div class="timeblock-content" contenteditable="true" placeholder="…">Short break · Water · 10 min walk</div>
+      </div>
+      <div class="timeblock-row highlight">
+        <div class="timeblock-time">2 PM</div>
+        <div class="timeblock-content" contenteditable="true" placeholder="…">🎯 Finalise presentation — review and polish</div>
+      </div>
+      <div class="timeblock-row soft-highlight">
+        <div class="timeblock-time">3 PM</div>
+        <div class="timeblock-content" contenteditable="true" placeholder="…">📤 Submit deck · Client reply emails</div>
+      </div>
+      <div class="timeblock-row">
+        <div class="timeblock-time">4 PM</div>
+        <div class="timeblock-content" contenteditable="true" placeholder="…">Wrap-up tasks · Plan tomorrow's list</div>
+      </div>
+      <div class="timeblock-row">
+        <div class="timeblock-time">5 PM</div>
+        <div class="timeblock-content" contenteditable="true" placeholder="…">End of workday · Shutdown ritual</div>
+      </div>
+      <div class="timeblock-row soft-highlight">
+        <div class="timeblock-time">6 PM</div>
+        <div class="timeblock-content" contenteditable="true" placeholder="…">🧘 Yoga · Dinner prep</div>
+      </div>
+      <div class="timeblock-row">
+        <div class="timeblock-time">7 PM</div>
+        <div class="timeblock-content" contenteditable="true" placeholder="…">📞 Call mom · Family time</div>
+      </div>
+      <div class="timeblock-row">
+        <div class="timeblock-time">8 PM</div>
+        <div class="timeblock-content" contenteditable="true" placeholder="…">📚 Reading · Wind down</div>
+      </div>
+      <div class="timeblock-row">
+        <div class="timeblock-time">9 PM</div>
+        <div class="timeblock-content" contenteditable="true" placeholder="…">Night routine · Journal reflection · Sleep by 10</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gratitude -->
+  <div class="section">
+    <h2 class="section-title" contenteditable="true">
+      <span class="section-icon">🌻</span> Gratitude
+      <span class="section-line"></span>
+    </h2>
+    <div class="gratitude-box">
+      <div class="gratitude-prompt">✦ Three things I'm grateful for today</div>
+      <div class="gratitude-items">
+        <div class="gratitude-row">
+          <span class="gratitude-bullet">❧</span>
+          <span class="gratitude-text" contenteditable="true" placeholder="I'm grateful for…">A quiet morning with chai and sunlight through the window</span>
+        </div>
+        <div class="gratitude-row">
+          <span class="gratitude-bullet">❧</span>
+          <span class="gratitude-text" contenteditable="true" placeholder="I'm grateful for…">My team's trust and collaborative energy</span>
+        </div>
+        <div class="gratitude-row">
+          <span class="gratitude-bullet">❧</span>
+          <span class="gratitude-text" contenteditable="true" placeholder="I'm grateful for…">The ability to rest and start fresh each day</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notes -->
+  <div class="section">
+    <h2 class="section-title" contenteditable="true">
+      <span class="section-icon">📝</span> Notes & Brain Dump
+      <span class="section-line"></span>
+    </h2>
+    <div class="notes-area">
+      <h4>Capture everything here</h4>
+      <div class="notes-text" contenteditable="true" placeholder="Anything on your mind — ideas, reminders, thoughts, questions…">
+        Remember to follow up with Aditya about the budget approval. Also look into the new journaling app Priya mentioned last week.
+      </div>
+    </div>
+  </div>
+
+  <!-- End of Day Reflection -->
+  <div class="section">
+    <h2 class="section-title" contenteditable="true">
+      <span class="section-icon">🌙</span> End-of-Day Reflection
+      <span class="section-line"></span>
+    </h2>
+    <div class="eod-grid">
+      <div class="eod-card">
+        <h4>🏆 Win of the day</h4>
+        <div class="eod-text" contenteditable="true" placeholder="What went really well?"></div>
+      </div>
+      <div class="eod-card">
+        <h4>💡 Lesson learned</h4>
+        <div class="eod-text" contenteditable="true" placeholder="What would you do differently?"></div>
+      </div>
+      <div class="eod-card">
+        <h4>➡️ Carry forward</h4>
+        <div class="eod-text" contenteditable="true" placeholder="What moves to tomorrow?"></div>
+      </div>
+      <div class="eod-card">
+        <h4>🌿 Self-care note</h4>
+        <div class="eod-text" contenteditable="true" placeholder="How did you take care of yourself today?"></div>
+      </div>
+    </div>
+
+    <!-- Evening Mood -->
+    <div class="mood-row">
+      <div class="mood-card">
+        <h4>Evening mood</h4>
+        <div class="mood-dots">
+          <div class="mood-dot" onclick="selectMood(this)">😔</div>
+          <div class="mood-dot" onclick="selectMood(this)">😐</div>
+          <div class="mood-dot" onclick="selectMood(this)">🙂</div>
+          <div class="mood-dot" onclick="selectMood(this)">😊</div>
+          <div class="mood-dot" onclick="selectMood(this)">🌟</div>
+        </div>
+      </div>
+      <div class="mood-card" style="flex:2">
+        <h4>Overall day rating</h4>
+        <div class="energy-bar" id="dayRatingBar">
+          <div class="energy-seg" onclick="setDayRating(1)"></div>
+          <div class="energy-seg" onclick="setDayRating(2)"></div>
+          <div class="energy-seg" onclick="setDayRating(3)"></div>
+          <div class="energy-seg" onclick="setDayRating(4)"></div>
+          <div class="energy-seg" onclick="setDayRating(5)"></div>
+          <div class="energy-seg" onclick="setDayRating(6)"></div>
+          <div class="energy-seg" onclick="setDayRating(7)"></div>
+          <div class="energy-seg" onclick="setDayRating(8)"></div>
+          <div class="energy-seg" onclick="setDayRating(9)"></div>
+          <div class="energy-seg" onclick="setDayRating(10)"></div>
+        </div>
+        <div class="energy-label" id="dayRatingLabel">Tap to rate your day</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tomorrow Preview -->
+  <div class="section">
+    <h2 class="section-title" contenteditable="true">
+      <span class="section-icon">🔭</span> Tomorrow's Preview
+      <span class="section-line"></span>
+    </h2>
+    <div class="notes-area">
+      <h4>3 things for tomorrow</h4>
+      <div class="notes-text" contenteditable="true" placeholder="Jot down the 3 most important things to tackle tomorrow…">
+        1. Finalise the onboarding doc draft
+        2. Prepare for Thursday's client meeting
+        3. Review team feedback on Q2 goals
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-quote" contenteditable="true">
+      "Almost everything will work again if you unplug it for a few minutes — including you." — Anne Lamott
+    </div>
+    <div class="footer-tag">🌿 Daily Planner</div>
+  </div>
+
+</div>
+
+<script>
+  // Toggle habit done/undone
+  function toggleHabit(el) {
+    if (event.target.contentEditable === 'true') return;
+    el.classList.toggle('done');
+    el.querySelector('.habit-check').textContent = el.classList.contains('done') ? '✓' : '';
+  }
+
+  // Toggle task checked/unchecked
+  function toggleTask(el) {
+    if (event.target.contentEditable === 'true') return;
+    el.classList.toggle('checked');
+    el.querySelector('.task-checkbox').textContent = el.classList.contains('checked') ? '✓' : '';
+    updateProgress();
+    updateBlockCounts();
+  }
+
+  // Cycle through badge states
+  function cycleBadge(btn, options) {
+    const current = btn.textContent.trim().replace(/^[●○•·\s]+/, '').trim();
+    let dot = btn.querySelector('.dot');
+    let idx = options.indexOf(current);
+    let next = options[(idx + 1) % options.length];
+    btn.lastChild.textContent = ' ' + next;
+    // Also update via full content rewrite to preserve dot
+    btn.innerHTML = btn.innerHTML.replace(current, next);
+  }
+
+  // Mood selection
+  function selectMood(el) {
+    const siblings = el.parentElement.querySelectorAll('.mood-dot');
+    siblings.forEach(s => s.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  // Energy bar
+  function setEnergy(level) {
+    const segs = document.querySelectorAll('#energyBar .energy-seg');
+    segs.forEach((s, i) => s.classList.toggle('active', i < level));
+    const labels = ['Very low','Low','Moderate','High','Peak'];
+    document.getElementById('energyLabel').textContent = labels[level-1] + ' — ' + level + ' / 5';
+  }
+
+  // Day rating bar
+  function setDayRating(level) {
+    const segs = document.querySelectorAll('#dayRatingBar .energy-seg');
+    segs.forEach((s, i) => s.classList.toggle('active', i < level));
+    document.getElementById('dayRatingLabel').textContent = level + ' / 10 — ' + (level <= 3 ? 'Tough day' : level <= 6 ? 'Decent day' : level <= 8 ? 'Good day' : 'Amazing day!');
+  }
+
+  // Progress tracking
+  function updateProgress() {
+    const all = document.querySelectorAll('.task-item');
+    const done = document.querySelectorAll('.task-item.checked').length;
+    const pct = all.length > 0 ? Math.round((done / all.length) * 100) : 0;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressPct').textContent = pct + '%';
+  }
+
+  function updateBlockCounts() {
+    [['workTasks','workCount'],['personalTasks','personalCount'],['healthTasks','healthCount']].forEach(([blockId, countId]) => {
+      const block = document.getElementById(blockId);
+      if (!block) return;
+      const all = block.querySelectorAll('.task-item').length;
+      const done = block.querySelectorAll('.task-item.checked').length;
+      document.getElementById(countId).textContent = done + ' / ' + all;
+    });
+  }
+
+  // Add task to a block
+  function addTask(blockId) {
+    const block = document.getElementById(blockId);
+    const div = document.createElement('div');
+    div.className = 'task-item';
+    div.innerHTML = `
+      <div class="task-checkbox"></div>
+      <div class="task-text-wrap">
+        <span class="task-text" contenteditable="true" placeholder="New task…"></span>
+        <div class="task-meta">
+          <span class="task-tag tag-work" style="cursor:pointer" onclick="cycleTag(this)">Work</span>
+          <span class="task-time" contenteditable="true">⏱ time · notes</span>
+        </div>
+      </div>`;
+    div.addEventListener('click', function(e) {
+      if (e.target.contentEditable === 'true') return;
+      div.classList.toggle('checked');
+      div.querySelector('.task-checkbox').textContent = div.classList.contains('checked') ? '✓' : '';
+      updateProgress(); updateBlockCounts();
+    });
+    block.appendChild(div);
+    div.querySelector('.task-text').focus();
+    updateBlockCounts();
+  }
+
+  // Cycle tag on click
+  function cycleTag(el) {
+    const tags = [
+      {text:'Work', cls:'tag-work'},
+      {text:'Health', cls:'tag-health'},
+      {text:'Personal', cls:'tag-personal'},
+      {text:'Urgent', cls:'tag-urgent'}
+    ];
+    const cur = el.textContent.trim();
+    const idx = tags.findIndex(t => t.text === cur);
+    const next = tags[(idx + 1) % tags.length];
+    el.textContent = next.text;
+    el.className = 'task-tag ' + next.cls;
+  }
+
+  // Init counts
+  updateProgress();
+  updateBlockCounts();
+</script>
+</body>
+</html>
